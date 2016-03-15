@@ -1,5 +1,7 @@
 # Droppy
 
+![screenshot.png]
+
 **The easiest and most convenient file-sharing utility based on Dropbox.**
 
 Drop any file on its icon, and it will be uploaded to your Dropbox, with the public URL copied to your clipboard!
