@@ -1,6 +1,6 @@
 # Droppy
 
-![Screenshot of Droppy][screenshot.png]
+![Screenshot of Droppy](screenshot.png)
 
 **The easiest and most convenient file-sharing utility based on Dropbox.**
 
