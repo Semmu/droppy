@@ -92,7 +92,16 @@ if got_file:
             # set its contents
             # we use the dropbox sharelink command, which returns the unique and safe URL
             # for a given file
-            clipboard.set_text(subprocess.check_output(["dropbox", "sharelink", destination_path]))
+
+            sharelink = subprocess.check_output(["dropbox", "sharelink", destination_path]).strip()
+
+            # we replace the dl=0 parameter with raw=1
+            # this way we can get a hotlink to the file with no dropbox decoration
+            # (join dropbox popups, commenting, preview, etc.)
+            if sharelink[-4:] == 'dl=0':
+                sharelink = sharelink[:-4] + 'raw=1'
+
+            clipboard.set_text(sharelink)
             # save the contents
             clipboard.store()
 
