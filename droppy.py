@@ -3,10 +3,8 @@
 import sys
 import os
 import gtk
-import pygtk
 import shutil
 import pynotify
-import uuid
 import subprocess
 import time
 import json
