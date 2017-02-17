@@ -53,26 +53,22 @@ except KeyError:
 
 if got_file:
 
-    # get the filename and its extension
-    filename, extension = os.path.splitext(os.path.basename(sys.argv[1]))
-
-    # we generate a random hash for safety reasons
-    # so filenames cant be guessed, it makes them indeterministic
-    generated_hash = uuid.uuid4().hex[:8]
-
-    # append the random hash
-    new_filename = filename + "." + generated_hash + extension
+    # we get the filename of the dropped file
+    filename = os.path.basename(sys.argv[1])
 
     # where the file will be copied
-    full_path = DropboxRoot + "/Public/droppy/" + new_filename
+    destination_path = DropboxRoot + "/Public/droppy/" + filename
+
+    # create the droppy folder if it doesnt exist
+    if not os.path.exists(DropboxRoot + "/Public/droppy/"):
+        os.makedirs(DropboxRoot + "/Public/droppy/")
 
     # we copy the file, which will then be automatically uploaded to our dropbox
     # by the official dropbox daemon
-    shutil.copy(sys.argv[1], full_path)
-
+    shutil.copy(sys.argv[1], destination_path)
 
     # this is the command to check the file status
-    command = ["dropbox", "stat", full_path]
+    command = ["dropbox", "stat", destination_path]
 
     while True:
 
@@ -94,14 +90,14 @@ if got_file:
             # we get the clipboard
             clipboard = gtk.clipboard_get()
             # set its contents
-            # we use the dropbox puburl command, which returns the public url
+            # we use the dropbox sharelink command, which returns the unique and safe URL
             # for a given file
-            clipboard.set_text(subprocess.check_output(["dropbox", "puburl", full_path]))
+            clipboard.set_text(subprocess.check_output(["dropbox", "sharelink", destination_path]))
             # save the contents
             clipboard.store()
 
             # display a nice notification
-            pynotify.Notification("\"" + new_filename + "\" copied!", \
+            pynotify.Notification("\"" + filename + "\" copied!", \
                                   "The public URL is in your clipboard!", \
                                   "dropbox").show()
 
