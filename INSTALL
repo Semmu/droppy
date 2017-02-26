@@ -22,11 +22,8 @@ echo "Copying files."
 for a_file in ${FILES[*]}
 do
     cp $a_file $DIR
+    chmod 755 "${DIR}/${a_file}"
 done
-
-echo "Setting permissions."
-chmod 755 "${DIR}/droppy.py"
-chmod 755 "${DIR}/droppy.desktop"
 
 echo "Copying application shortcut."
 if [ -e /usr/share/applications/droppy.desktop ]
